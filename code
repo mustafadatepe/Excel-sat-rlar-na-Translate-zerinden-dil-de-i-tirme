@@ -1,0 +1,41 @@
+Public Function TERCUME(kelime As Range, SL As String, TL As String)
+
+Dim ie As New InternetExplorer
+Dim doc As HTMLDocument
+
+sltl = "sl=" & SL & "&" & "tl=" & TL
+ie.navigate "https://translate.google.com/#view=home&op=translate&" & sltl
+ie.Visible = False
+
+Do
+DoEvents
+Loop Until ie.readyState = READYSTATE_COMPLETE
+
+Set doc = ie.document
+Set kelimex = doc.getElementsByClassName("orig tlid-source-text-input goog-textarea")(0)
+kelimex.Value = kelime
+
+
+beklet (2)
+
+
+Set cevap = doc.getElementsByClassName("tlid-translation translation")(0)
+TERCUME = cevap.innerText
+
+ie.Quit
+Set ie = Nothing
+
+
+
+
+End Function
+
+Public Function beklet(beklemezamani As Double)
+
+Start = Timer
+Do
+DoEvents
+Loop Until (Timer - Start) >= beklemezamani
+End Function
+
+
